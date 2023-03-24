@@ -10,7 +10,6 @@ def create_connection(db_name, db_user, db_password, db_host = "localhost", db_p
             host=db_host,
             port=db_port,
         )
-        print("Connection to PostgreSQL DB successful")
     except OperationalError as e:
         print(f"The error '{e}' occurred")
     return connection
@@ -21,12 +20,20 @@ def execute_query(query, params=None):
     try:
         cursor.execute(query, params)
         connection.commit()
-        print("Query executed successfully")
         connection.close()
         return cursor
     except OSError as e:
         print(f"The error '{e}' occurred or the hero name is already taken")
-        
+
+def execute_read_query(connection, query):
+    cursor = connection.cursor()
+    result = None
+    try:
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except OperationalError as e:
+        print(f"The error '{e}' occurred")   
         
 """
 To use the execute_query function you will need to:
@@ -35,13 +42,15 @@ To use the execute_query function you will need to:
 (3) attach a .fetchone(), .fetchall() to it
 Documentation on this can be found at https://www.psycopg.org/psycopg3/docs/basic/usage.html
 Examples:
+
 def select_all_patients():
     query = 
         SELECT * FROM patients
-    returned_items = execute_query(query).fetchall
+    returned_items = execute_query(query).fetchall()
     for item in returned_items:
         print(item[1])
     return returned_items
+
  def create_new_patient(name, bio):
     query = 
         INSERT INTO patients (name, bio)
