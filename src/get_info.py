@@ -4,37 +4,32 @@ from get_hero import get_all_names
 
 ##### HERO ID #################################
 def get_hero_info():
-  get_all_names()
+  get_all_names() # LIST OF ALL HEROES NAMES
   hero_id = (input("\nSelect Superhero by their number: "))
   hero_info = """
-    SELECT
-      id,
-      name,
-      about_me,
-      biography
+    SELECT id, name, about_me, biography
     FROM heroes
-    WHERE heroes.id = %s
+    WHERE id = %s
   """
-  info = execute_query(hero_info, (hero_id,)).fetchall()
+  info = execute_query(hero_info, (hero_id,)).fetchone()
   for id, name, about_me, biography in hero_info:
-    print (f"""
-      name
-
-      about_me
-
-      biography
-
-    """)
+    print (name) 
+    print (about_me)
+    print (biography)
+    
   get_other_hero()
 
 def get_other_hero():
-  other_hero = input("\nDo you want to see information about a different hero?\nEnter 1 - YES or 2 - NO : \n")
-  if other_hero == "1":
+  other_hero = input("\nDo you want to see information about a different hero?\nEnter 1-YES or 2-NO : \n")
+  if other_hero == "1": # YES
     get_hero_info()
-  elif other_hero == "2":
+  elif other_hero == "2": # NO
     start_menu()
   else:
     print("\nMake a valid choice and try again.\n\n")
+    get_other_hero()
+
+get_hero_info()
 
 # def get_all_info():
 #   all_info = execute_query("SELECT id, name, about_me, biography FROM heroes ORDER BY name").fetchall()

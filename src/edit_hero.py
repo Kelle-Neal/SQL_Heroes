@@ -1,9 +1,11 @@
 from database.db_connection import execute_query
+from header import header
+from get_hero import get_all_names
 
 def edit_hero_info():
   get_all_names()
-  edit_hero = input("\nWhich Hero?\n")
-  edit_info = input("\nWhich info?\n1: Name\n2: Byline\n3: Backstory\n")
+  edit_hero = int(input("\nWhich Hero?\n"))
+  edit_info = int(input("\nWhich info?\n1: Name\n2: Byline\n3: Backstory\n"))
   if edit_info == "1":
     new_name = input("Enter new Name: ")
     update_hero('heroes', 'name', new_name, edit_hero, 'id')
